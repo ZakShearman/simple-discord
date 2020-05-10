@@ -42,13 +42,13 @@ public class CommandBase extends ListenerAdapter {
             return;
         }
         String commandName = rawMessage.substring(1).split(" ")[0];
-        User sender = event.getAuthor();
+        Member sender = event.getMember();
         System.out.println("3");
         for (SimpleCommand<? extends User> simpleCommand : this.commands) {
             if (!simpleCommand.getCommand().equalsIgnoreCase(commandName)) {
                 continue;
             }
-            if (sender.isBot() && !simpleCommand.allowsBots()) {
+            if (sender.getUser().isBot() && !simpleCommand.allowsBots()) {
                 return;
             }
             Member member = event.getMember();
@@ -77,7 +77,7 @@ public class CommandBase extends ListenerAdapter {
             if (subResult.getRole() != null && !member.getRoles().contains(subResult.getRole())) {
                 return;
             }
-            if (!subResult.allowsBots() && sender.isBot()) {
+            if (!subResult.allowsBots() && sender.getUser().isBot()) {
                 return;
             }
             subResult.middleMan(sender, new CommandContainer(event), args);
