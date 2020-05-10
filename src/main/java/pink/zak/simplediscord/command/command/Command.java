@@ -18,7 +18,6 @@ public abstract class Command {
 
     public abstract void onExecute(Member sender, CommandContainer container, String[] args);
 
-    @SuppressWarnings("unchecked")
     public void middleMan(Member sender, CommandContainer container, String[] args) {
         this.onExecute(sender, container, args);
     }

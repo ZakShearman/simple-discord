@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import pink.zak.simplediscord.command.CommandBase;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 import pink.zak.simplediscord.config.ConfigStore;
+import pink.zak.simplediscord.storage.BackendFactory;
+import pink.zak.simplediscord.storage.StorageSettings;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -16,6 +18,8 @@ import java.nio.file.Path;
 import java.util.function.UnaryOperator;
 
 public class JdaBot implements SimpleBot {
+    private StorageSettings storageSettings;
+    private BackendFactory backendFactory;
     private CommandBase commandBase;
     private ConfigStore configStore;
     private Path basePath;
@@ -24,6 +28,8 @@ public class JdaBot implements SimpleBot {
 
     @SneakyThrows
     public JdaBot(UnaryOperator<Path> subBasePath) {
+        this.storageSettings = new StorageSettings();
+        this.backendFactory = new BackendFactory(this);
         this.commandBase = new CommandBase(this);
         this.configStore = new ConfigStore(this);
         this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath());
@@ -90,6 +96,16 @@ public class JdaBot implements SimpleBot {
     @Override
     public boolean isInitialized() {
         return this.jda == null;
+    }
+
+    @Override
+    public StorageSettings getStorageSettings() {
+        return this.storageSettings;
+    }
+
+    @Override
+    public BackendFactory getBackendFactory() {
+        return this.backendFactory;
     }
 
     @Override
