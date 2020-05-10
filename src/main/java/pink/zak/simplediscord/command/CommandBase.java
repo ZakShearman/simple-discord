@@ -13,6 +13,7 @@ import pink.zak.simplediscord.command.argument.ArgumentType;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 import pink.zak.simplediscord.command.command.SubCommand;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class CommandBase extends ListenerAdapter {
@@ -88,8 +89,20 @@ public class CommandBase extends ListenerAdapter {
 
     private void registerArgumentTypes() {
         this.registerArgumentType(String.class, (string, guild) -> string)
-                .registerArgumentType(Member.class, (string, guild) -> guild.getMember(this.bot.getJda().getUserById(string.contains("!") ? string.substring(4, 22) : string.substring(3, 21))))
-                .registerArgumentType(User.class, (string, guild) -> this.bot.getJda().getUserById(string.contains("!") ? string.substring(4, 22) : string.substring(3, 21)))
+                .registerArgumentType(Member.class, (string, guild) -> {
+                    String id = string.length() == 21 ? string.substring(2, 20) : string.length() == 22 ? string.substring(3, 21) : null;
+                    if (id == null) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(guild.retrieveMemberById(id).complete());
+                })
+                .registerArgumentType(User.class, (string, guild) -> {
+                    String id = string.length() == 21 ? string.substring(2, 20) : string.length() == 22 ? string.substring(3, 21) : null;
+                    if (id == null) {
+                        return Optional.empty();
+                    }
+                    return Optional.of(this.bot.getJda().retrieveUserById(id).complete());
+                })
                 .registerArgumentType(Integer.class, (string, guild) -> StringUtils.isNumeric(string) ? Integer.parseInt(string) : -1)
                 .registerArgumentType(Boolean.class, (string, guild) -> string.equalsIgnoreCase("true") ? true : string.equalsIgnoreCase("false") ? false : null);
     }
