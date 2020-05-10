@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'pink.zak.simplediscord'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://repo.codemc.org/repository/maven-public/' }
+}
+
+dependencies {
+    compile 'com.google.guava:guava:11.0.2'
+    compile 'org.apache.commons:commons-lang3:3.0'
+    compile 'net.dv8tion:JDA:4.1.1_146'
+    compile 'com.timvisee:yamlwrapper:1.1.1'
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
