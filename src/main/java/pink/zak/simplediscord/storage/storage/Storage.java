@@ -19,8 +19,8 @@ public abstract class Storage<T> {
     private GsonBuilder gsonBuilder;
     private Gson gson;
 
-    public Storage(SimpleBot plugin, Function<BackendFactory, Backend> backend) {
-        this.backend = backend.apply(new BackendFactory(plugin));
+    public Storage(SimpleBot bot, Function<BackendFactory, Backend> backend) {
+        this.backend = backend.apply(new BackendFactory(bot));
         this.gsonBuilder = new GsonBuilder();
         this.gson = new Gson();
     }

@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 public class StorageProvider {
 
-    public static <T> Storage<T> provide(SimpleBot plugin, Function<BackendFactory, Backend> backend, Function<Backend, Storage<T>> instance) {
-        return instance.apply(backend.apply(new BackendFactory(plugin)));
+    public static <T> Storage<T> provide(SimpleBot bot, Function<BackendFactory, Backend> backend, Function<Backend, Storage<T>> instance) {
+        return instance.apply(backend.apply(new BackendFactory(bot)));
     }
 
     public static <T> Storage<T> provide(BackendFactory backendFactory, Function<BackendFactory, Storage<T>> instance) {

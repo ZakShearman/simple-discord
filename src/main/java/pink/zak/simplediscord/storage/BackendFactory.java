@@ -13,12 +13,12 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class BackendFactory {
-    private final SimpleBot plugin;
+    private final SimpleBot bot;
     private Map<String, BiFunction<UnaryOperator<Path>, String, Backend>> backendMap = Maps.newConcurrentMap();
 
-    public BackendFactory(SimpleBot plugin) {
-        this.plugin = plugin;
-        this.addBackend("mysql", destination -> new MySqlBackend(this.plugin, destination)).addBackend("mongodb", destination -> new MongoBackend());
+    public BackendFactory(SimpleBot bot) {
+        this.bot = bot;
+        this.addBackend("mysql", destination -> new MySqlBackend(this.bot, destination)).addBackend("mongodb", destination -> new MongoBackend());
     }
 
     public Backend create(String backendType, UnaryOperator<Path> path, String destination) {
@@ -27,7 +27,7 @@ public class BackendFactory {
                 return backendEntry.getValue().apply(path, destination);
             }
         }
-        return new FlatBackend(path.apply(this.plugin.getBasePath().toAbsolutePath()).resolve(destination));
+        return new FlatBackend(path.apply(this.bot.getBasePath().toAbsolutePath()).resolve(destination));
     }
 
     public Backend create(String backendType, String destination) {

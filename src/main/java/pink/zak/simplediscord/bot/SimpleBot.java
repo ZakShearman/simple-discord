@@ -11,6 +11,8 @@ import java.nio.file.Path;
 
 public interface SimpleBot {
 
+    void unload();
+
     void initialize(String token, String prefix);
 
     void registerCommands(SimpleCommand... commands);

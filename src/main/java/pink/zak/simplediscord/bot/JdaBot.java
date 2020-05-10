@@ -10,14 +10,11 @@ import pink.zak.simplediscord.storage.BackendFactory;
 import pink.zak.simplediscord.storage.StorageSettings;
 
 import javax.security.auth.login.LoginException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.function.UnaryOperator;
 
-public class JdaBot implements SimpleBot {
+public abstract class JdaBot implements SimpleBot {
     private StorageSettings storageSettings;
     private BackendFactory backendFactory;
     private CommandBase commandBase;
@@ -33,7 +30,25 @@ public class JdaBot implements SimpleBot {
         this.commandBase = new CommandBase(this);
         this.configStore = new ConfigStore(this);
         this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath());
+
+        this.listenToConsole();
     }
+
+    @SneakyThrows
+    private void listenToConsole() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String input = reader.readLine();
+        switch (input.toLowerCase()) {
+            case "stop":
+                this.unload();
+                break;
+            default:
+                this.listenToConsole();
+        }
+    }
+
+    @Override
+    public abstract void unload();
 
     @Override
     public void initialize(String token, String prefix) {
