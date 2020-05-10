@@ -2,11 +2,10 @@ package pink.zak.simplediscord.command.command;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import pink.zak.simplediscord.bot.SimpleBot;
 import pink.zak.simplediscord.command.CommandContainer;
 
-public abstract class Command<T extends User> {
+public abstract class Command {
     protected final SimpleBot bot;
     private final Role role;
     private final boolean allowsBots;
@@ -17,11 +16,11 @@ public abstract class Command<T extends User> {
         this.allowsBots = allowBots;
     }
 
-    public abstract void onExecute(T sender, CommandContainer container, String[] args);
+    public abstract void onExecute(Member sender, CommandContainer container, String[] args);
 
     @SuppressWarnings("unchecked")
     public void middleMan(Member sender, CommandContainer container, String[] args) {
-        this.onExecute((T) sender, container, args);
+        this.onExecute(sender, container, args);
     }
 
     public Role getRole() {

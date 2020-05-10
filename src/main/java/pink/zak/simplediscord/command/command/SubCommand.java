@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import pink.zak.simplediscord.bot.SimpleBot;
 import pink.zak.simplediscord.command.argument.Argument;
 import pink.zak.simplediscord.command.argument.ArgumentHandler;
@@ -12,7 +11,7 @@ import pink.zak.simplediscord.command.argument.ArgumentHandler;
 import java.util.List;
 import java.util.Set;
 
-public abstract class SubCommand<T extends User> extends Command<T> {
+public abstract class SubCommand extends Command {
     private final boolean endless;
     private List<Argument<?>> arguments = Lists.newArrayList();
     private boolean inheritRoleRequirements;

@@ -2,15 +2,14 @@ package pink.zak.simplediscord.command.command;
 
 import com.google.common.collect.Sets;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import pink.zak.simplediscord.bot.SimpleBot;
 
 import java.util.Arrays;
 import java.util.Set;
 
-public abstract class SimpleCommand<T extends User> extends Command<T> {
+public abstract class SimpleCommand extends Command {
     private final String command;
-    private Set<SubCommand<? extends User>> subCommands = Sets.newLinkedHashSet();
+    private Set<SubCommand> subCommands = Sets.newLinkedHashSet();
 
     public SimpleCommand(SimpleBot bot, String command, Role role, boolean allowBots) {
         super(bot, role, allowBots);
@@ -33,15 +32,15 @@ public abstract class SimpleCommand<T extends User> extends Command<T> {
         return this.command;
     }
 
-    public Set<SubCommand<? extends User>> getSubCommands() {
+    public Set<SubCommand> getSubCommands() {
         return this.subCommands;
     }
 
-    public void setSubCommands(Set<SubCommand<? extends User>> subCommands) {
+    public void setSubCommands(Set<SubCommand> subCommands) {
         this.subCommands = subCommands;
     }
 
-    protected void setSubCommands(SubCommand<? extends User>... subCommands) {
+    protected void setSubCommands(SubCommand... subCommands) {
         this.subCommands.addAll(Arrays.asList(subCommands));
     }
 }

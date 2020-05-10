@@ -8,7 +8,6 @@ public class CommandContainer {
     private final User sender;
     private final MessageChannel channel;
     private final Message message;
-    private final Member member;
     private final String messageId;
 
     public CommandContainer(MessageReceivedEvent event) {
@@ -16,7 +15,6 @@ public class CommandContainer {
         this.sender = event.getAuthor();
         this.channel = event.getChannel();
         this.message = event.getMessage();
-        this.member = event.getMember();
         this.messageId = event.getMessageId();
     }
 
@@ -34,10 +32,6 @@ public class CommandContainer {
 
     public Message getMessage() {
         return this.message;
-    }
-
-    public Member getMember() {
-        return this.member;
     }
 
     public String getMessageId() {

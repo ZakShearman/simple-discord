@@ -7,7 +7,7 @@ import pink.zak.simplediscord.command.command.SimpleCommand;
 
 import java.util.function.UnaryOperator;
 
-public abstract class CompactCommand<T extends User> extends SimpleCommand<T> {
+public abstract class CompactCommand<T extends User> extends SimpleCommand {
 
     public CompactCommand(SimpleBot bot, String command, Role role, boolean allowBots) {
         super(bot, command, role, allowBots);
@@ -25,8 +25,8 @@ public abstract class CompactCommand<T extends User> extends SimpleCommand<T> {
         super(bot, command);
     }
 
-    public void subChain(UnaryOperator<SubChain<? extends User>> operator) {
-        SubChain<? extends User> subChain = operator.apply(new SubChain<T>());
+    public void subChain(UnaryOperator<SubChain> operator) {
+        SubChain subChain = operator.apply(new SubChain());
         this.setSubCommands(subChain.getSubCommands());
     }
 }

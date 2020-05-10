@@ -17,14 +17,14 @@ import java.util.Set;
 
 public class CommandBase extends ListenerAdapter {
     private final SimpleBot bot;
-    private Set<SimpleCommand<? extends User>> commands = Sets.newHashSet();
+    private Set<SimpleCommand> commands = Sets.newHashSet();
 
     public CommandBase(SimpleBot bot) {
         this.bot = bot;
         this.registerArgumentTypes();
     }
 
-    public void registerCommand(SimpleCommand<? super User> command) {
+    public void registerCommand(SimpleCommand command) {
         this.commands.add(command);
     }
 
@@ -44,7 +44,7 @@ public class CommandBase extends ListenerAdapter {
         String commandName = rawMessage.substring(1).split(" ")[0];
         Member sender = event.getMember();
         System.out.println("3");
-        for (SimpleCommand<? extends User> simpleCommand : this.commands) {
+        for (SimpleCommand simpleCommand : this.commands) {
             if (!simpleCommand.getCommand().equalsIgnoreCase(commandName)) {
                 continue;
             }
@@ -63,8 +63,8 @@ public class CommandBase extends ListenerAdapter {
             String message = rawMessage.split(prefix.concat(commandName).concat(" "))[1];
             String[] args = message.split(" ");
 
-            SubCommand<? extends User> subResult = null;
-            for (SubCommand<? extends User> subCommand : simpleCommand.getSubCommands()) {
+            SubCommand subResult = null;
+            for (SubCommand subCommand : simpleCommand.getSubCommands()) {
                 if ((args.length > subCommand.getArgumentsSize() && subCommand.isEndless()) || (subCommand.getArgumentsSize() == args.length && subCommand.isMatch(args))) {
                     subResult = subCommand;
                     break;
@@ -84,7 +84,7 @@ public class CommandBase extends ListenerAdapter {
         }
     }
 
-    public Set<SimpleCommand<? extends User>> getCommands() {
+    public Set<SimpleCommand> getCommands() {
         return this.commands;
     }
 
