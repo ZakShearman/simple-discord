@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import pink.zak.simplediscord.command.CommandBase;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 import pink.zak.simplediscord.config.ConfigStore;
+import pink.zak.simplediscord.console.ConsoleListener;
 import pink.zak.simplediscord.storage.BackendFactory;
 import pink.zak.simplediscord.storage.StorageSettings;
 
@@ -30,21 +31,6 @@ public abstract class JdaBot implements SimpleBot {
         this.commandBase = new CommandBase(this);
         this.configStore = new ConfigStore(this);
         this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath());
-
-        this.listenToConsole();
-    }
-
-    @SneakyThrows
-    private void listenToConsole() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String input = reader.readLine();
-        switch (input.toLowerCase()) {
-            case "stop":
-                this.unload();
-                break;
-            default:
-                this.listenToConsole();
-        }
     }
 
     @Override
@@ -65,6 +51,7 @@ public abstract class JdaBot implements SimpleBot {
             System.out.println("Unable to log into Discord, the following error occurred:");
             e.printStackTrace();
         }
+        new Thread(new ConsoleListener(this)).start();
     }
 
     @Override
