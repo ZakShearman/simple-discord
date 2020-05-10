@@ -35,6 +35,11 @@ public class JdaBot implements SimpleBot {
         try {
             this.jda = JDABuilder.createDefault(token).build();
             this.registerListeners(this.commandBase);
+
+            System.out.println("System listener check:");
+            for (Object listener : this.jda.getRegisteredListeners()) {
+                System.out.println(listener.getClass().getName());
+            }
         } catch (LoginException e) {
             System.out.println("Unable to log into Discord, the following error occurred:");
             e.printStackTrace();
@@ -50,11 +55,7 @@ public class JdaBot implements SimpleBot {
 
     @Override
     public void registerListeners(Object... listeners) {
-        if (this.isInitialized()) {
-            for (Object listener : listeners) {
-                this.jda.addEventListener(listener);
-            }
-        }
+        this.jda.addEventListener(listeners);
     }
 
     @SneakyThrows

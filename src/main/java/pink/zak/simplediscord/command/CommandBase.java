@@ -43,7 +43,6 @@ public class CommandBase extends ListenerAdapter {
         }
         String commandName = rawMessage.substring(1).split(" ")[0];
         Member sender = event.getMember();
-        System.out.println("3");
         for (SimpleCommand simpleCommand : this.commands) {
             if (!simpleCommand.getCommand().equalsIgnoreCase(commandName)) {
                 continue;
@@ -52,7 +51,6 @@ public class CommandBase extends ListenerAdapter {
                 return;
             }
             Member member = event.getMember();
-            System.out.println(member);
             if (member == null || simpleCommand.getRole() != null && !member.getRoles().contains(simpleCommand.getRole())) {
                 return;
             }
