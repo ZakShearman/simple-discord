@@ -1,6 +1,7 @@
 # simple-discord (library)
 
 Simple-discord is a library for Discord JDA which aims to make a lot of general tasks easier and more efficient out of the box.
+The main contributer to the code is still Hyfe but this is listed under a different repo so it's not directly visible.
 
 > How do I include the library with Maven?
 ```xml
