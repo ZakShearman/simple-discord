@@ -1,0 +1,9 @@
+/build
+*.idea
+.idea
+
+*.bin
+*.lock
+/.gradle/5.2.1
+
+*.iml
