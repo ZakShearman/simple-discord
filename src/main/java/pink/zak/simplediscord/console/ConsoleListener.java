@@ -13,9 +13,11 @@ public class ConsoleListener implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("1");
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
-            String input = scanner.next();
+            String input = scanner.nextLine();
+            System.out.println("INPUT: ".concat(input));
             switch (input.toLowerCase()) {
                 case "stop":
                     if (this.bot.isInitialized()) {
