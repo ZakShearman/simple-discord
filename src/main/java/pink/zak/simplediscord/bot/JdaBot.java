@@ -97,7 +97,7 @@ public abstract class JdaBot implements SimpleBot {
 
     @Override
     public boolean isInitialized() {
-        return this.jda == null;
+        return this.jda != null;
     }
 
     @Override
