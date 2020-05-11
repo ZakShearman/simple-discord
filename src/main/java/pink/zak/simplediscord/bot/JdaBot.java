@@ -3,6 +3,7 @@ package pink.zak.simplediscord.bot;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import pink.zak.simplediscord.command.CommandBase;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 import pink.zak.simplediscord.config.ConfigStore;
@@ -13,6 +14,7 @@ import pink.zak.simplediscord.storage.StorageSettings;
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 
 public abstract class JdaBot implements SimpleBot {
@@ -37,12 +39,16 @@ public abstract class JdaBot implements SimpleBot {
     public abstract void unload();
 
     @Override
-    public void initialize(String token, String prefix) {
+    public void initialize(String token, String prefix, Set<GatewayIntent> intents) {
         this.prefix = prefix;
         try {
-            this.jda = JDABuilder.createDefault(token).build();
-            this.registerListeners(this.commandBase);
+            JDABuilder builder =  JDABuilder.createDefault(token);
+            if (!intents.isEmpty()) {
+                builder.enableIntents(intents);
+            }
+            this.jda = builder.build();
 
+            this.registerListeners(this.commandBase);
             System.out.println("System listener check:");
             for (Object listener : this.jda.getRegisteredListeners()) {
                 System.out.println(listener.getClass().getName());
