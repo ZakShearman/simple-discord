@@ -8,11 +8,15 @@ import pink.zak.simplediscord.command.CommandBase;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 import pink.zak.simplediscord.config.ConfigStore;
 import pink.zak.simplediscord.console.ConsoleListener;
+import pink.zak.simplediscord.registry.Registry;
 import pink.zak.simplediscord.storage.BackendFactory;
 import pink.zak.simplediscord.storage.StorageSettings;
 
 import javax.security.auth.login.LoginException;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.UnaryOperator;
@@ -42,22 +46,25 @@ public abstract class JdaBot implements SimpleBot {
     public void initialize(String token, String prefix, Set<GatewayIntent> intents) {
         this.prefix = prefix;
         try {
-            JDABuilder builder =  JDABuilder.createDefault(token);
+            JDABuilder builder = JDABuilder.createDefault(token);
             if (!intents.isEmpty()) {
                 builder.enableIntents(intents);
             }
             this.jda = builder.build();
 
             this.registerListeners(this.commandBase);
-            System.out.println("System listener check:");
-            for (Object listener : this.jda.getRegisteredListeners()) {
-                System.out.println(listener.getClass().getName());
-            }
         } catch (LoginException e) {
             System.out.println("Unable to log into Discord, the following error occurred:");
             e.printStackTrace();
         }
         new Thread(new ConsoleListener(this)).start();
+    }
+
+    @Override
+    public void registerRegistries(Registry... registries) {
+        for (Registry registry : registries) {
+            registry.register();
+        }
     }
 
     @Override
@@ -82,24 +89,30 @@ public abstract class JdaBot implements SimpleBot {
             return;
         }
 
-        File targetFile = new File(this.basePath.toFile(), location);
-        if (targetFile.exists() && !override) {
+        File outputFile = new File(this.basePath.toFile(), location);
+        if (outputFile.exists() && !override) {
             System.out.println("File already exists ".concat(location).concat(" and override is not set to true."));
             return;
         }
-        File targetFolder = new File(this.basePath.toFile(), location.substring(Math.max(location.lastIndexOf("/"), 0)));
-        if (!targetFolder.exists()) {
-            targetFolder.mkdirs();
+        File outputFolder = new File(this.basePath.toFile(), location.substring(0, Math.max(location.lastIndexOf('/'), 0)));
+        if (!outputFolder.exists()) {
+            outputFolder.mkdirs();
         }
-        OutputStream outStream = new FileOutputStream(targetFile);
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = inStream.read(buf)) > 0) {
-            outStream.write(buf, 0, len);
+        if (!outputFile.exists() || override) {
+            OutputStream outStream = new FileOutputStream(outputFile);
+            byte[] buffer = new byte[1024];
+            int readPart = inStream.read(buffer);
+            while (readPart > 0) {
+                readPart = inStream.read(buffer);
+                outStream.write(buffer, 0, readPart);
+            }
+            outStream.close();
+            inStream.close();
+        } else {
+            System.out.println("File already exists/override is false: ".concat(location));
         }
-        outStream.close();
-        inStream.close();
     }
+
 
     @Override
     public boolean isInitialized() {
