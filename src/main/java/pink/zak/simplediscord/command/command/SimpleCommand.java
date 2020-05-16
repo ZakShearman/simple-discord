@@ -41,6 +41,10 @@ public abstract class SimpleCommand extends Command {
         this.aliases = aliases;
     }
 
+    public void setAliases(String... aliases) {
+        this.aliases.addAll(Arrays.asList(aliases));
+    }
+
     public Set<String> getAliases() {
         return this.aliases;
     }
