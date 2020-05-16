@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'pink.zak.simplediscord'
-version '1.0.4.4.2'
+version '1.0.4.4.7'
 
 sourceCompatibility = 1.8
 

@@ -33,6 +33,7 @@ public abstract class JdaBot implements SimpleBot {
         this.backendFactory = new BackendFactory(this);
         this.commandBase = new CommandBase(this);
         this.configStore = new ConfigStore(this);
+        System.out.println("Base path set to: ".concat(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().toString()));
         this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath().toAbsolutePath());
     }
 
