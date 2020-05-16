@@ -36,7 +36,7 @@ public abstract class JdaBot implements SimpleBot {
         this.backendFactory = new BackendFactory(this);
         this.commandBase = new CommandBase(this);
         this.configStore = new ConfigStore(this);
-        this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath());
+        this.basePath = subBasePath.apply(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).toPath().toAbsolutePath());
     }
 
     @Override
@@ -83,7 +83,7 @@ public abstract class JdaBot implements SimpleBot {
     @Override
     public void saveResource(String location, boolean override) {
         location = location.replace("\\", "/");
-        InputStream inStream = this.getClass().getClassLoader().getResourceAsStream(location);
+        InputStream inStream = this.getClass().getResourceAsStream(location);
         if (inStream == null) {
             System.out.println("Failed to find ".concat(location).concat(" in the resources"));
             return;
