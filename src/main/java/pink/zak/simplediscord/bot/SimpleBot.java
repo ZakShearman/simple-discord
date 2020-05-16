@@ -24,8 +24,6 @@ public interface SimpleBot {
 
     void registerListeners(Object... listeners);
 
-    void saveResource(String name, boolean override);
-
     boolean isInitialized();
 
     StorageSettings getStorageSettings();

@@ -115,7 +115,8 @@ public class Config {
     private void createIfAbsent(String file) {
         if (!this.file.exists()) {
             this.bot.getBasePath().toFile().mkdirs();
-            this.bot.saveResource(file, false);
+            System.out.println("The file '".concat(file).concat("' did not exist. You must make it"));
+            System.out.println("Target path to file: ".concat(this.file.getAbsolutePath()));
         }
     }
 }

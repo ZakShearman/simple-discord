@@ -14,9 +14,6 @@ import pink.zak.simplediscord.storage.StorageSettings;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.UnaryOperator;
@@ -77,40 +74,6 @@ public abstract class JdaBot implements SimpleBot {
     @Override
     public void registerListeners(Object... listeners) {
         this.jda.addEventListener(listeners);
-    }
-
-    @SneakyThrows
-    @Override
-    public void saveResource(String location, boolean override) {
-        location = location.replace("\\", "/");
-        InputStream inStream = this.getClass().getResourceAsStream(location);
-        if (inStream == null) {
-            System.out.println("Failed to find ".concat(location).concat(" in the resources"));
-            return;
-        }
-
-        File outputFile = new File(this.basePath.toFile(), location);
-        if (outputFile.exists() && !override) {
-            System.out.println("File already exists ".concat(location).concat(" and override is not set to true."));
-            return;
-        }
-        File outputFolder = new File(this.basePath.toFile(), location.substring(0, Math.max(location.lastIndexOf('/'), 0)));
-        if (!outputFolder.exists()) {
-            outputFolder.mkdirs();
-        }
-        if (!outputFile.exists() || override) {
-            OutputStream outStream = new FileOutputStream(outputFile);
-            byte[] buffer = new byte[1024];
-            int readPart = inStream.read(buffer);
-            while (readPart > 0) {
-                readPart = inStream.read(buffer);
-                outStream.write(buffer, 0, readPart);
-            }
-            outStream.close();
-            inStream.close();
-        } else {
-            System.out.println("File already exists/override is false: ".concat(location));
-        }
     }
 
 
