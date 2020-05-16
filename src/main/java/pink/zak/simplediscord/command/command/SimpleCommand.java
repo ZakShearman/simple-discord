@@ -9,6 +9,7 @@ import java.util.Set;
 
 public abstract class SimpleCommand extends Command {
     private final String command;
+    private Set<String> aliases;
     private Set<SubCommand> subCommands = Sets.newLinkedHashSet();
 
     public SimpleCommand(SimpleBot bot, String command, Role role, boolean allowBots) {
@@ -34,6 +35,14 @@ public abstract class SimpleCommand extends Command {
 
     public Set<SubCommand> getSubCommands() {
         return this.subCommands;
+    }
+
+    public void setAliases(Set<String> aliases) {
+        this.aliases = aliases;
+    }
+
+    public Set<String> getAliases() {
+        return this.aliases;
     }
 
     public void setSubCommands(Set<SubCommand> subCommands) {

@@ -45,7 +45,7 @@ public class CommandBase extends ListenerAdapter {
         String commandName = rawMessage.substring(1).split(" ")[0];
         Member sender = event.getMember();
         for (SimpleCommand simpleCommand : this.commands) {
-            if (!simpleCommand.getCommand().equalsIgnoreCase(commandName)) {
+            if (!simpleCommand.getCommand().equalsIgnoreCase(commandName) || (!simpleCommand.getAliases().isEmpty() && simpleCommand.getAliases().contains(commandName))) {
                 continue;
             }
             if (sender.getUser().isBot() && !simpleCommand.allowsBots()) {
