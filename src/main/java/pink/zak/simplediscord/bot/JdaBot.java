@@ -40,6 +40,7 @@ public abstract class JdaBot implements SimpleBot {
     @Override
     public abstract void unload();
 
+    @SneakyThrows
     @Override
     public void initialize(String token, String prefix, Set<GatewayIntent> intents) {
         this.prefix = prefix;
@@ -48,8 +49,7 @@ public abstract class JdaBot implements SimpleBot {
             if (!intents.isEmpty()) {
                 builder.enableIntents(intents);
             }
-            this.jda = builder.build();
-
+            this.jda = builder.build().awaitReady();
             this.registerListeners(this.commandBase);
         } catch (LoginException e) {
             System.out.println("Unable to log into Discord, the following error occurred:");
