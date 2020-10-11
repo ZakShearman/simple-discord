@@ -39,8 +39,9 @@ public class MySqlBackend implements Backend {
             try (PreparedStatement statement = connection.prepareStatement(this.processor.apply(SELECT))) {
                 statement.setString(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next())
-                        return new JsonParser().parse(resultSet.getString("json")).getAsJsonObject();
+                    if (resultSet.next()) {
+                        return JsonParser.parseString(resultSet.getString("json")).getAsJsonObject();
+                    }
                 }
             }
         }
@@ -73,7 +74,7 @@ public class MySqlBackend implements Backend {
             try (PreparedStatement statement = connection.prepareStatement(this.processor.apply(SELECT_ALL))) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        all.add(new JsonParser().parse(resultSet.getString("json")).getAsJsonObject());
+                        all.add(JsonParser.parseString(resultSet.getString("json")).getAsJsonObject());
                     }
                 }
             }

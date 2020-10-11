@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
-group 'pink.zak.simplediscord'
-version '1.0.6.2'
+group 'pink.zak'
+version '1.0.6.3'
+description 'simple-discord'
 
 sourceCompatibility = 1.8
 
@@ -14,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:11.0.2'
+    compile 'com.google.guava:guava:29.0-jre'
     compile 'com.google.code.gson:gson:2.8.6'
     compile 'com.zaxxer:HikariCP:3.4.5'
     compile 'org.apache.commons:commons-lang3:3.0'
@@ -22,4 +24,12 @@ dependencies {
     compile 'com.timvisee:yamlwrapper:1.1.1'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
 }

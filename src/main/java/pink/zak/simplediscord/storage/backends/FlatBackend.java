@@ -32,8 +32,7 @@ public class FlatBackend implements Backend {
             return null;
         }
         FileReader reader = new FileReader(userPath.toFile());
-        JsonParser parser = new JsonParser();
-        return parser.parse(reader).getAsJsonObject();
+        return JsonParser.parseReader(reader).getAsJsonObject();
     }
 
     @Override

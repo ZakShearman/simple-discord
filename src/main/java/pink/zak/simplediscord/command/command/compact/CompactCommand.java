@@ -1,13 +1,12 @@
 package pink.zak.simplediscord.command.command.compact;
 
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import pink.zak.simplediscord.bot.SimpleBot;
 import pink.zak.simplediscord.command.command.SimpleCommand;
 
 import java.util.function.UnaryOperator;
 
-public abstract class CompactCommand<T extends User> extends SimpleCommand {
+public abstract class CompactCommand extends SimpleCommand {
 
     public CompactCommand(SimpleBot bot, String command, Role role, boolean allowBots) {
         super(bot, command, role, allowBots);
