@@ -3,7 +3,6 @@ package pink.zak.simplediscord.storage;
 import com.google.common.collect.Maps;
 import pink.zak.simplediscord.bot.SimpleBot;
 import pink.zak.simplediscord.storage.backends.FlatBackend;
-import pink.zak.simplediscord.storage.backends.MongoBackend;
 import pink.zak.simplediscord.storage.backends.mysql.MySqlBackend;
 
 import java.nio.file.Path;
@@ -18,7 +17,7 @@ public class BackendFactory {
 
     public BackendFactory(SimpleBot bot) {
         this.bot = bot;
-        this.addBackend("mysql", destination -> new MySqlBackend(this.bot, destination)).addBackend("mongodb", destination -> new MongoBackend());
+        this.addBackend("mysql", destination -> new MySqlBackend(this.bot, destination));
     }
 
     public Backend create(String backendType, UnaryOperator<Path> path, String destination) {

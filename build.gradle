@@ -1,29 +1,31 @@
 plugins {
-    id 'java'
-    id 'maven-publish'
+    id "java"
+    id "maven-publish"
 }
 
-group 'pink.zak'
-version '1.0.6.3'
-description 'simple-discord'
+group "pink.zak"
+version "1.1.0.0"
+description "simple-discord"
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
     jcenter()
-    maven { url 'https://repo.codemc.org/repository/maven-public/' }
+    maven { url "https://repo.codemc.org/repository/maven-public/" }
 }
 
 dependencies {
-    compile 'com.google.guava:guava:29.0-jre'
-    compile 'com.google.code.gson:gson:2.8.6'
-    compile 'com.zaxxer:HikariCP:3.4.5'
-    compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'net.dv8tion:JDA:4.2.0_204'
-    compile 'com.timvisee:yamlwrapper:1.1.1'
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compile "com.google.guava:guava:29.0-jre"
+    compile "com.google.code.gson:gson:2.8.6"
+    compile "com.zaxxer:HikariCP:3.4.5"
+    compile "org.apache.commons:commons-lang3:3.0"
+    compile "net.dv8tion:JDA:4.2.0_204"
+    compile "com.timvisee:yamlwrapper:1.1.1"
+    implementation "com.vdurmont:emoji-java:5.1.1"
+    compile "org.mongodb:mongo-java-driver:3.12.7"
+    compileOnly "org.projectlombok:lombok:1.18.12"
+    annotationProcessor "org.projectlombok:lombok:1.18.12"
 }
 
 publishing {

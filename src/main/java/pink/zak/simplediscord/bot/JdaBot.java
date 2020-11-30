@@ -11,6 +11,7 @@ import pink.zak.simplediscord.console.ConsoleListener;
 import pink.zak.simplediscord.registry.Registry;
 import pink.zak.simplediscord.storage.BackendFactory;
 import pink.zak.simplediscord.storage.StorageSettings;
+import pink.zak.simplediscord.storage.mongo.MongoConnectionFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.function.UnaryOperator;
 public abstract class JdaBot implements SimpleBot {
     private StorageSettings storageSettings;
     private BackendFactory backendFactory;
+    private MongoConnectionFactory mongoConnectionFactory;
     private CommandBase commandBase;
     private ConfigStore configStore;
     private Path basePath;
@@ -91,6 +93,14 @@ public abstract class JdaBot implements SimpleBot {
     @Override
     public BackendFactory getBackendFactory() {
         return this.backendFactory;
+    }
+
+    @Override
+    public MongoConnectionFactory getMongoConnectionFactory() {
+        if (this.mongoConnectionFactory == null) {
+            this.mongoConnectionFactory = new MongoConnectionFactory(this.storageSettings);
+        }
+        return this.mongoConnectionFactory;
     }
 
     @Override

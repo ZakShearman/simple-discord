@@ -8,6 +8,7 @@ import pink.zak.simplediscord.config.ConfigStore;
 import pink.zak.simplediscord.registry.Registry;
 import pink.zak.simplediscord.storage.BackendFactory;
 import pink.zak.simplediscord.storage.StorageSettings;
+import pink.zak.simplediscord.storage.mongo.MongoConnectionFactory;
 
 import java.nio.file.Path;
 import java.util.Set;
@@ -29,6 +30,8 @@ public interface SimpleBot {
     StorageSettings getStorageSettings();
 
     BackendFactory getBackendFactory();
+
+    MongoConnectionFactory getMongoConnectionFactory();
 
     Path getBasePath();
 
