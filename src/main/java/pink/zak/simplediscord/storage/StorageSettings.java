@@ -50,12 +50,16 @@ public class StorageSettings {
         return this.database;
     }
 
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
     public String getAuthDatabase() {
         return this.authDatabase;
     }
 
-    public void setDatabase(String database) {
-        this.database = database;
+    public void setAuthDatabase(String authDatabase) {
+        this.authDatabase = authDatabase;
     }
 
     public String getUsername() {

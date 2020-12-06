@@ -11,6 +11,7 @@ import pink.zak.simplediscord.cache.options.CacheStorage;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 public abstract class MongoStorage<K, T> implements CacheStorage<K, T> {
     private final MongoCollection<Document> collection;
@@ -20,6 +21,7 @@ public abstract class MongoStorage<K, T> implements CacheStorage<K, T> {
         this.collection = bot.getMongoConnectionFactory().getCollection(collectionName);
         this.idKey = idKey;
     }
+
     public abstract MongoSerializer<T> serializer();
 
     public abstract MongoDeserializer<T> deserializer();
@@ -74,6 +76,26 @@ public abstract class MongoStorage<K, T> implements CacheStorage<K, T> {
     public void save(Map<String, Object> keyValues, T type) {
         Document document = this.serializer().apply(type, new Document());
         this.save(new BasicDBObject(keyValues), document);
+    }
+
+    public void update(Bson filter, UnaryOperator<Document> operator) {
+        this.collection.findOneAndUpdate(filter, operator.apply(new Document()));
+    }
+
+    /**
+     * Not recommended to use this method as it can cause wasted performance.
+     * It's only a simple lazy way to do things.
+     *
+     * @param type     The item to update
+     * @param operator The changes to apply to the document
+     */
+    public void update(T type, UnaryOperator<Document> operator) {
+        Document document = this.serializer().apply(type, new Document());
+        this.collection.findOneAndUpdate(Filters.eq(this.idKey, document.get(this.idKey)), operator.apply(new Document()));
+    }
+
+    public void update(Map<String, Object> keyValues, UnaryOperator<Document> operator) {
+        this.collection.findOneAndUpdate(new Document(keyValues), operator.apply(new Document()));
     }
 
     public void delete(Bson filter) {
