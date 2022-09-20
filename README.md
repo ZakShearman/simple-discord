@@ -1,3 +1,6 @@
+# Archived
+This project is superseded by my Spring version which (as of writing) I maintain. You can find my spring-boot-starter-discord [here](https://github.com/ZakShearman/spring-boot-starter-discord).
+
 # simple-discord (library)
 
 Simple-discord is a library for Discord JDA which aims to make a lot of general tasks easier and more efficient out of the box.
@@ -6,10 +9,10 @@ The main contributer to the code is still Hyfe but this is listed under a differ
 > How do I include the library with Maven?
 ```xml
 <repositories>
-	<repository>
-	    <id>jitpack.io</id>
-	    <url>https://jitpack.io</url>
-	</repository>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
 </repositories>
 ```
 ```xml
